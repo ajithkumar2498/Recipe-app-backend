@@ -69,29 +69,44 @@ const updateRecipe = async (req, res)=>{
     if (!recipe) {
       return res.status(404).json({ message: "Recipe not found" });
     }
-    const {recipename, authorname, ingredients, procedure, recipedesc} = req.body
+    
     // Update the recipe properties based on the request 
-    const recipeUpload = await cloudinary.uploader.upload(req.files.recipeimage[0].path, { folder: 'recipes' });
-    const authorUpload = await cloudinary.uploader.upload(req.files.authorimage[0].path, { folder: 'authors' });    
-    console.log(recipeUpload)
-    console.log(authorUpload)  
-    const Editrecipe = {
-      recipename,
-      recipedesc,
-      authorname,
-      recipeimage:{
-        public_id:recipeUpload.public_id,
-        url:recipeUpload.secure_url
-      },
-      authorimage:{
-        public_id:authorUpload.public_id,
-        url:authorUpload.secure_url
-      },
-      ingredients,
-      procedure,
-      createdBy:req.params.id,
-        }
-     recipe.set(Editrecipe)
+    // const recipeUpload = await cloudinary.uploader.upload(req.files.recipeimage[0].path, { folder: 'recipes' });
+    // const authorUpload = await cloudinary.uploader.upload(req.files.authorimage[0].path, { folder: 'authors' });    
+
+    if (req.body.recipename) {
+      recipe.recipename = req.body.recipename;
+    }
+
+    if (req.body.authorname) {
+      recipe.authorname = req.body.authorname;
+    }
+    if (req.body.ingredients) {
+      recipe.ingredients = req.body.ingredients;
+    }
+    if (req.body.procedure) {
+      recipe.procedure = req.body.procedure;
+    }
+    if (req.body.recipedesc) {
+      recipe.recipedesc = req.body.recipedesc;
+    }
+    // Update recipe image if provided
+    if (req.files.recipeimage[0].path) {
+      const recipeUpload = await cloudinary.uploader.upload(req.files.recipeimage[0].path, { folder: 'recipes' });
+      recipe.recipeimage = {
+        public_id: recipeUpload.public_id,
+        url: recipeUpload.secure_url
+      };
+    }
+    // Update author image if provided
+    if (req.files.authorimage[0].path) {
+      const authorUpload = await cloudinary.uploader.upload(req.files.authorimage[0].path, { folder: 'authors' });
+      recipe.authorimage = {
+        public_id: authorUpload.public_id,
+        url: authorUpload.secure_url
+      };
+    }
+     
     // Save the updated recipe
     console.log(recipe)
     const updatedRecipe = await recipe.save();
