@@ -91,7 +91,7 @@ const updateRecipe = async (req, res)=>{
       procedure,
       createdBy:req.params.id,
         }
-     recipe = Editrecipe
+     recipe.set(Editrecipe)
     // Save the updated recipe
     console.log(recipe)
     const updatedRecipe = await recipe.save();
