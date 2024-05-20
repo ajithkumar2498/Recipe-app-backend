@@ -5,18 +5,13 @@ import userModel from "../models/user.js"
 const AddRecipe = async (req,res)=>{
   // check if the user existing
   const {recipename, authorname, ingredients, procedure, recipedesc} = req.body
-  console.log(req.files)
   try {
-    console.log(req.body)
     const user = await userModel.findById(req.params.id);
-    console.log(user)
     if (!user) {
       return res.status(401).json({ message: "Unauthorized Access:User does not exist" });
     } 
     const recipeUpload = await cloudinary.uploader.upload(req.files.recipeimage[0].path, { folder: 'recipes' });
     const authorUpload = await cloudinary.uploader.upload(req.files.authorimage[0].path, { folder: 'authors' });
-    console.log(recipeUpload)
-    console.log(authorUpload)
      const recipe = {
       recipename,
       recipedesc,
@@ -65,14 +60,9 @@ const getAllRecipes = async (req,res)=>{
 const updateRecipe = async (req, res)=>{
   try {
     let recipe = await AddRecipeModel.findById(req.params.id);
-    console.log(req.files)
     if (!recipe) {
       return res.status(404).json({ message: "Recipe not found" });
     }
-    
-    // Update the recipe properties based on the request 
-    // const recipeUpload = await cloudinary.uploader.upload(req.files.recipeimage[0].path, { folder: 'recipes' });
-    // const authorUpload = await cloudinary.uploader.upload(req.files.authorimage[0].path, { folder: 'authors' });    
 
     if (req.body.recipename) {
       recipe.recipename = req.body.recipename;
@@ -106,11 +96,8 @@ const updateRecipe = async (req, res)=>{
         url: authorUpload.secure_url
       };
     }
-     
     // Save the updated recipe
-    console.log(recipe)
     const updatedRecipe = await recipe.save();
-    console.log(updatedRecipe)
     // Send the updated recipe as a response
     res.status(200).json({
       message: "Recipe updated successfully",

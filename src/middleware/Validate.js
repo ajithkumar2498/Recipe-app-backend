@@ -5,6 +5,7 @@ const Validate = async (req,res,next)=>{
     try {
          
       let token = req?.headers?.authorization?.split(" ")[1]
+      console.log(token)
 
       if(token){
           let payload = await Auth.decodeToken(token)
