@@ -16,8 +16,7 @@ const AdminGaurd = async (req,res,next)=>{
         res.status(402).send({
             message:"Token Not Found"
         })
-      }
-        
+      }  
     } catch (error) {
         res.status(500).send({
             message:"Internal Server Error",
