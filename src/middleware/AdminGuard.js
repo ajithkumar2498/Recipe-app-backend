@@ -3,9 +3,7 @@ import jwt from "jsonwebtoken"
 
 const AdminGaurd = async (req,res,next)=>{
     try {
-         
       let token = req?.headers?.authorization?.split(" ")[1]
-
       if(token){
           let payload = await Auth.decodeToken(token)
           if( payload.role === "admin")
