@@ -23,7 +23,6 @@ const AdminGaurd = async (req,res,next)=>{
     }
  }
 
-
 export  {
     AdminGaurd
 }
