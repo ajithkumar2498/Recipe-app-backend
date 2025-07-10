@@ -60,6 +60,6 @@ let AddRecipeSchema = new mongoose.Schema({
 })
 
 //create model
-const recipeModel = mongoose.model('recipes',AddRecipeSchema)
+const recipeModel = mongoose.models.recipes || mongoose.model('recipes', AddRecipeSchema);
 
 export default  recipeModel
