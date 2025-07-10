@@ -29,6 +29,7 @@ try {
     })
     
 } catch (error) {
+    console.log(error)
     res.status(500).send({
             message: "Failed to add comment" || "Internal Server Error" ,
             error:error.message
