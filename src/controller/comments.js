@@ -1,3 +1,4 @@
+import recipeModel from "../models/addrecipe.js"
 import commentModel from "../models/comments.js"
 import userModel from "../models/user.js"
 
@@ -7,7 +8,7 @@ const AddComment = async(req, res)=>{
     const {id} = req.params.id
 try {
 
-    const recipe = userModel.findById({recipeId:id})
+    const recipe = recipeModel.findById({recipeId:id})
 
     if(!recipe){
         return res.status(404).send({

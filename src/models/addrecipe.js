@@ -50,7 +50,9 @@ let AddRecipeSchema = new mongoose.Schema({
         default:Date.now()
     },
     createdBy:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+      ref:"users",
+      required:true
     }
 },{
     collection:'recipes',
